@@ -13,14 +13,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <!-- CSS do Materialize (Requisito do motor Artaxnet) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- CSS do Motor de Reservas Artaxnet -->
     <link rel="stylesheet" href="https://artaxnet.com/css/search_form_ebe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <style>
-        /* Desativa conflitos do Materialize com as fontes do site */
-        .artax-container * {
-            box-sizing: border-box;
+        /* Ajustes de compatibilidade do formulário */
+        #artax_form_div {
+            min-height: 120px;
         }
         
         /* Configurações de Fonte */
@@ -116,14 +116,9 @@
 
     <!-- BARRA DE RESERVAS (ARTAXNET) -->
     <section id="reservas" class="relative z-30 -mt-16 container mx-auto px-4 max-w-5xl">
-        <div class="bg-white p-4 md:p-6 rounded-lg shadow-2xl border border-stone-200 text-stone-800 artax-container">
-            <!-- Iframe do motor para ignorar bloqueios CORS/Scripts externos -->
-            <iframe 
-                src="https://santo-hostel.artaxnet.com/api/load-form/ebe" 
-                style="width: 100%; min-height: 180px; border: none; overflow: hidden;"
-                scrolling="no"
-                id="artax_iframe">
-            </iframe>
+        <div class="bg-white p-6 rounded-lg shadow-2xl border border-stone-200 text-stone-800">
+            <!-- DIV ONDE O FORMULÁRIO SERÁ CARREGADO -->
+            <div id="artax_form_div"></div>
         </div>
     </section>
 
@@ -306,16 +301,35 @@
         </div>
     </footer>
 
-    <!-- SCRIPTS -->
+    <!-- SCRIPTS DE EXECUÇÃO ARTAXNET -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        // Ajusta a altura do iframe automaticamente de acordo com a tela do usuário
-        window.addEventListener('message', function(e) {
-            if (e.data && e.data.height) {
-                document.getElementById('artax_iframe').style.height = e.data.height + 'px';
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carrega o HTML do formulário
+            fetch("https://santo-hostel.artaxnet.com/api/load-form/ebe")
+                .then(response => response.text())
+                .then(html => {
+                    const targetDiv = document.getElementById("artax_form_div");
+                    if (targetDiv) {
+                        targetDiv.innerHTML = html;
+
+                        // Adiciona o script de inicialização do formulário Artaxnet após inserir o HTML
+                        const scriptArtax = document.createElement('script');
+                        scriptArtax.src = 'https://artaxnet.com/js/form_search_artax.js';
+                        scriptArtax.onload = () => {
+                            // Força a re-inicialização do datepicker e selects do Materialize
+                            if (window.M) {
+                                M.AutoInit();
+                            }
+                        };
+                        document.body.appendChild(scriptArtax);
+                    }
+                })
+                .catch(err => console.error("Erro ao carregar o motor de reservas:", err));
         });
 
-        // Efeitos de Layout Navbar
+        // Script do Menu Mobile e Navbar
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
