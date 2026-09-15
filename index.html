@@ -13,10 +13,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <!-- CSS do Motor de Reservas Artaxnet -->
+    <!-- CSS do Materialize (Requisito do motor Artaxnet) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://artaxnet.com/css/search_form_ebe.css">
 
     <style>
+        /* Desativa conflitos do Materialize com as fontes do site */
+        .artax-container * {
+            box-sizing: border-box;
+        }
+        
         /* Configurações de Fonte */
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-sans { font-family: 'Montserrat', sans-serif; }
@@ -109,9 +115,15 @@
     </section>
 
     <!-- BARRA DE RESERVAS (ARTAXNET) -->
-    <section id="reservas" class="relative z-30 -mt-12 container mx-auto px-4 max-w-5xl">
-        <div class="bg-white p-6 rounded-lg shadow-xl border border-stone-100 text-stone-800">
-            <div id="artax_form_div"></div>
+    <section id="reservas" class="relative z-30 -mt-16 container mx-auto px-4 max-w-5xl">
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-2xl border border-stone-200 text-stone-800 artax-container">
+            <!-- Iframe do motor para ignorar bloqueios CORS/Scripts externos -->
+            <iframe 
+                src="https://santo-hostel.artaxnet.com/api/load-form/ebe" 
+                style="width: 100%; min-height: 180px; border: none; overflow: hidden;"
+                scrolling="no"
+                id="artax_iframe">
+            </iframe>
         </div>
     </section>
 
@@ -295,32 +307,21 @@
     </footer>
 
     <!-- SCRIPTS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        // Carregamento dinâmico do formulário Artaxnet
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch("https://santo-hostel.artaxnet.com/api/load-form/ebe")
-                .then(response => response.text())
-                .then(html => {
-                    const formContainer = document.getElementById("artax_form_div");
-                    if (formContainer) {
-                        formContainer.innerHTML = html;
-                        const script = document.createElement('script');
-                        script.src = 'https://artaxnet.com/js/form_search_artax.js';
-                        document.body.appendChild(script);
-                    }
-                })
-                .catch(err => console.error("Erro ao carregar formulario Artaxnet:", err));
+        // Ajusta a altura do iframe automaticamente de acordo com a tela do usuário
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.height) {
+                document.getElementById('artax_iframe').style.height = e.data.height + 'px';
+            }
         });
 
-        // Efeitos de Layout
+        // Efeitos de Layout Navbar
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
         let isMenuOpen = false;
 
-        // Efeito de Scroll na Navbar
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 navbar.classList.add('bg-white/95', 'shadow-sm', 'py-4', 'text-stone-800');
@@ -331,7 +332,6 @@
             }
         });
 
-        // Menu Mobile Toggle
         mobileMenuBtn.addEventListener('click', () => {
             isMenuOpen = !isMenuOpen;
             if (isMenuOpen) {
@@ -345,7 +345,6 @@
             }
         });
 
-        // Fechar menu mobile ao clicar em algum link
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 isMenuOpen = false;
