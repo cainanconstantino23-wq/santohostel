@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Santo sdadadaHostel</title>
+    <title>Santo Hostel</title>
     
-    <!-- Tailwind CSS (Funciona direto, sem configuração) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Fontes Google -->
@@ -13,12 +13,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
+    <!-- CSS do Formulário de Reservas Externo -->
+    <link rel="stylesheet" href="https://artaxnet.com/css/search_form_ebe.css">
+
     <style>
         /* Configurações de Fonte */
-        .font-serif { fontFamily: 'Cormorant Garamond', serif; }
-        .font-sans { fontFamily: 'Montserrat', sans-serif; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Montserrat', sans-serif; }
         
-        /* Animações Simples */
+        /* Animações */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -26,14 +29,14 @@
         
         .animate-fade-in-up {
             animation: fadeInUp 1s ease-out forwards;
-            opacity: 0; /* Começa invisível */
+            opacity: 0;
         }
 
         .delay-200 { animation-delay: 0.2s; }
         .delay-400 { animation-delay: 0.4s; }
         .delay-600 { animation-delay: 0.6s; }
 
-        /* Zoom suave no background */
+        /* Zoom no background */
         .hero-bg {
             transition: transform 20s linear;
         }
@@ -55,6 +58,7 @@
             <!-- Menu Desktop -->
             <nav class="hidden md:flex space-x-8 text-sm tracking-widest uppercase opacity-90">
                 <a href="#home" class="hover:text-[#c4a484] transition-colors">Início</a>
+                <a href="#reservas" class="hover:text-[#c4a484] transition-colors">Reservas</a>
                 <a href="#acasa" class="hover:text-[#c4a484] transition-colors">A Casa</a>
                 <a href="#suites" class="hover:text-[#c4a484] transition-colors">Suítes</a>
                 <a href="#experiencias" class="hover:text-[#c4a484] transition-colors">Experiências</a>
@@ -70,6 +74,7 @@
         <!-- Menu Mobile Overlay -->
         <div id="mobile-menu" class="fixed inset-0 bg-[#fdfcf8] z-40 flex flex-col items-center justify-center space-y-8 text-stone-800 font-serif text-2xl opacity-0 pointer-events-none transition-opacity duration-300">
             <a href="#home" class="mobile-link">Início</a>
+            <a href="#reservas" class="mobile-link">Reservas</a>
             <a href="#acasa" class="mobile-link">A Casa</a>
             <a href="#suites" class="mobile-link">Suítes</a>
             <a href="#experiencias" class="mobile-link">Experiências</a>
@@ -98,29 +103,23 @@
             </p>
             
             <div class="absolute bottom-10 animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <a href="#reservas">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </a>
             </div>
         </div>
     </section>
-<!-- Adicionar antes ao final da tag <body> ... </body> -->
-                                            <!-- Adicionar a div desejada o id artax_form_div <div id="artax_form_div"></div> -->
-                                            <link rel="stylesheet" href="https://artaxnet.com/css/search_form_ebe.css">
-                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    fetch("https://santo-hostel.artaxnet.com/api/load-form/ebe")
-                                                        .then(response => response.text())
-                                                        .then(html => {
-                                                            document.getElementById("artax_form_div").innerHTML = html;
-                                                                        
-                                                            const script = document.createElement('script');
-                                                            script.src = 'https://artaxnet.com/js/form_search_artax.js';
-                                                            document.body.appendChild(script);
-                                                        });
-                                                })
-                                            </script>
-<!-- Adicionar na DIV desejada -->
-                            <embed src="https://santo-hostel.artaxnet.com/api/load-form/ebe" type="" width="100%" height="100%">
+
+    <!-- SEÇÃO DE RESERVAS (EMBED) -->
+    <section id="reservas" class="py-12 bg-[#fdfcf8] -mt-12 relative z-20 container mx-auto px-4 md:px-6">
+        <div class="bg-white p-6 rounded-lg shadow-xl border border-stone-100">
+            <h3 class="font-serif text-2xl text-stone-800 text-center mb-6">Faça sua Reserva</h3>
+            <div id="artax_form_div" class="w-full min-h-[120px]">
+                <embed src="https://santo-hostel.artaxnet.com/load-form/ebe" type="text/html" width="100%" height="300px">
+            </div>
+        </div>
+    </section>
+
     <!-- A CASA -->
     <section id="acasa" class="py-24 px-6 md:px-12 bg-[#fdfcf8]">
         <div class="container mx-auto flex flex-col md:flex-row items-center gap-16">
@@ -132,9 +131,9 @@
                 <div class="w-16 h-[1px] bg-[#c4a484] mx-auto md:mx-0"></div>
                 <p class="font-sans font-light text-stone-600 leading-loose text-sm md:text-base">
                    O Santo Hostel não é apenas um lugar para dormir, é um convite para desacelerar. 
-                    Inspirada na cultura local de Trancoso e no design tropical, cada canto foi pensado 
-                    para despertar os sentidos. Móveis de madeira de demolição, linho puro, obras de 
-                    artistas locais e o cheiro de café fresco pela manhã.
+                   Inspirada na cultura local de Trancoso e no design tropical, cada canto foi pensado 
+                   para despertar os sentidos. Móveis de madeira de demolição, linho puro, obras de 
+                   artistas locais e o cheiro de café fresco pela manhã.
                 </p>
                 <p class="font-serif italic text-xl text-stone-500">
                     "Luxo é ter tempo, silêncio e espaço."
@@ -164,7 +163,7 @@
                     </div>
                     <h3 class="font-serif text-2xl text-stone-800 mb-3 group-hover:text-[#c4a484] transition-colors">Suíte Jasmin</h3>
                     <p class="font-sans font-light text-sm text-stone-500 leading-relaxed mb-6">Uma imersão na história com conforto contemporâneo. Cama king size, varanda privativa e decoração com artesanato local.</p>
-                    <button class="text-xs font-bold tracking-[0.2em] uppercase border-b border-stone-300 pb-1 hover:border-[#c4a484] hover:text-[#c4a484] transition-all">Reservar Agora</button>
+                    <a href="#reservas" class="inline-block text-xs font-bold tracking-[0.2em] uppercase border-b border-stone-300 pb-1 hover:border-[#c4a484] hover:text-[#c4a484] transition-all">Reservar Agora</a>
                 </div>
 
                 <!-- Suite 2 -->
@@ -175,7 +174,7 @@
                     </div>
                     <h3 class="font-serif text-2xl text-stone-800 mb-3 group-hover:text-[#c4a484] transition-colors">Suíte Flor das Águas</h3>
                     <p class="font-sans font-light text-sm text-stone-500 leading-relaxed mb-6">Rodeada pelo verde, esta suíte oferece silêncio absoluto e um banho ao ar livre inesquecível.</p>
-                    <button class="text-xs font-bold tracking-[0.2em] uppercase border-b border-stone-300 pb-1 hover:border-[#c4a484] hover:text-[#c4a484] transition-all">Reservar Agora</button>
+                    <a href="#reservas" class="inline-block text-xs font-bold tracking-[0.2em] uppercase border-b border-stone-300 pb-1 hover:border-[#c4a484] hover:text-[#c4a484] transition-all">Reservar Agora</a>
                 </div>
 
                 <!-- Suite 3 -->
@@ -186,7 +185,7 @@
                     </div>
                     <h3 class="font-serif text-2xl text-stone-800 mb-3 group-hover:text-[#c4a484] transition-colors">Loft</h3>
                     <p class="font-sans font-light text-sm text-stone-500 leading-relaxed mb-6">Charme e sofisticação a poucos passos do centro histórico. Espaço amplo com sala de estar integrada.</p>
-                    <button class="text-xs font-bold tracking-[0.2em] uppercase border-b border-stone-300 pb-1 hover:border-[#c4a484] hover:text-[#c4a484] transition-all">Reservar Agora</button>
+                    <a href="#reservas" class="inline-block text-xs font-bold tracking-[0.2em] uppercase border-b border-stone-300 pb-1 hover:border-[#c4a484] hover:text-[#c4a484] transition-all">Reservar Agora</a>
                 </div>
             </div>
         </div>
@@ -211,10 +210,10 @@
                     </p>
                 </div>
                 
-                <!-- Texto 2 (Invertido em Desktop) -->
+                <!-- Texto 2 -->
                 <div class="bg-stone-800 p-12 md:p-20 flex flex-col justify-center text-white order-last md:order-none">
                     <span class="font-sans text-xs tracking-[0.2em] text-[#c4a484] uppercase mb-4">Lazer</span>
-                    <h3 class="font-serif text-3xl md:text-4xl text-white mb-6">a</h3>
+                    <h3 class="font-serif text-3xl md:text-4xl text-white mb-6">Piscina & Jardim</h3>
                     <p class="font-sans font-light text-white/80 leading-loose mb-8">
                         Refresque-se em nossa piscina de pedra vulcânica cercada por um jardim tropical exuberante. 
                         O lugar perfeito para ler um livro, tomar um drink ou simplesmente não fazer nada.
@@ -256,9 +255,7 @@
                     Sinta-se em casa, longe de casa.
                 </p>
                 <div class="flex space-x-6 mt-8 text-[#c4a484]">
-                    <!-- Instagram Icon -->
                     <svg class="cursor-pointer hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                    <!-- Mail Icon -->
                     <svg class="cursor-pointer hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </div>
             </div>
@@ -300,7 +297,9 @@
         </div>
     </footer>
 
-    <!-- SCRIPT DE COMPORTAMENTO (Sem React) -->
+    <!-- SCRIPTS DE NAVEGAÇÃO E INTEGRAÇÃO DO FORMULÁRIO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://artaxnet.com/js/form_search_artax.js"></script>
     <script>
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
