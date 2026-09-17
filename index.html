@@ -103,9 +103,13 @@
     <section id="reservas" class="py-12 bg-[#fdfcf8] relative z-20 container mx-auto px-4 md:px-6">
         <div class="bg-white p-6 rounded-lg shadow-xl border border-stone-100 max-w-5xl mx-auto">
             <h3 class="font-serif text-2xl text-stone-800 text-center mb-6">Faça sua Reserva</h3>
-            <div id="artax_form_div" class="w-full min-h-[120px]">
-                <p class="text-center text-stone-400 py-4 font-sans text-sm">Carregando formulário...</p>
-            </div>
+            
+            <!-- Div e Script Oficial do Artaxnet CDN com Client ID -->
+            <div id="artax_form_div"></div>
+            <script 
+                src="https://cdn-artaxnet.s3.us-east-1.amazonaws.com/artaxnet-form-ebe.js?v=1.0.0" 
+                data-client-id="client_id_565wA3SF35Hud322iAwYDwup0czq">
+            </script>
         </div>
     </section>
 
@@ -220,34 +224,8 @@
         </div>
     </footer>
 
-    <!-- SCRIPTS EXTERNO DO MATERIALIZE (REQUISITO ARTAXNET) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-    <!-- SCRIPT DA NAVBAR E REQUISIÇÃO DO FORMULÁRIO -->
+    <!-- SCRIPT DA NAVBAR E MENU MOBILE -->
     <script>
-        // 1. Carregamento do Formulário via Fetch
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch("https://santo-hostel.artaxnet.com/api/load-form/ebe")
-                .then(response => {
-                    if (!response.ok) throw new Error("Falha no carregamento");
-                    return response.text();
-                })
-                .then(html => {
-                    document.getElementById("artax_form_div").innerHTML = html;
-                    
-                    // Injeta o script de inicialização do formulário
-                    const script = document.createElement('script');
-                    script.src = 'https://artaxnet.com/js/form_search_artax.js';
-                    document.body.appendChild(script);
-                })
-                .catch(err => {
-                    console.error("Erro ao carregar o motor de reservas:", err);
-                    document.getElementById("artax_form_div").innerHTML = 
-                        '<p class="text-center text-red-500 py-4 font-sans text-sm">Não foi possível carregar o formulário de reservas. Tente novamente mais tarde.</p>';
-                });
-        });
-
-        // 2. Comportamento do Header / Menu Mobile
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
